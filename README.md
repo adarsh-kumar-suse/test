@@ -34,3 +34,64 @@ helm install cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
   --set crds.enabled=true
+
+
+
+
+
+
+
+
+
+
+
+global:
+  imagePullSecrets:
+  - application-collection
+persistence:
+  enabled: true
+  storageClass: longhorn
+ingress:
+  host: rke2c5.demo.com
+ollama:
+  enabled: true
+  defaultModel: llama3.2
+  ollama:
+    models:
+      pull:
+      - "llama3.2"
+      - "gemma:2b"
+extraEnvVars:
+- name: VECTOR_DB
+  value: "milvus"
+- name: MILVUS_URI
+  value: "http://milvus.suse-ai.svc.cluster.local:19530"
+- name: RAG_EMBEDDING_MODEL
+  value: \"sentence-transformers/all-MiniLM-L6-v2[3:36 PM]------------
+cat milvus_custom_overrides.yaml
+global:
+  imagePullSecrets:
+  - application-collection
+cluster:
+  enabled: false
+standalone:
+  persistence:
+    persistentVolumeClaim:
+      storageClass: longhorn
+etcd:
+  replicaCount: 1
+  persistence:
+    storageClassName: longhorn
+minio:
+  mode: standalone
+  replicas: 1
+  rootUser: admin
+  rootPassword: adminminio
+  persistence:
+    size: 100Gi
+    storageClass: longhorn
+  resources:
+    requests:
+      memory: 4096Mi
+kafka:
+  enabled: false
