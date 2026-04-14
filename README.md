@@ -14,6 +14,12 @@ helm upgrade --install \
     suse-observability/suse-observability
 
 
+helm upgrade --install cert-manager oci://dp.apps.rancher.io/charts/cert-manager -n cert-manager \
+--set "global.imagePullSecrets[0].name=application-collection" --set crds.enabled=true
+kubectl get pods --namespace cert-manager
+
+
+
 # If you have installed the CRDs manually, instead of setting installCRDs or crds.enabled to true in your Helm install command, you should upgrade your CRD resources before upgrading the Helm chart:
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/<VERSION>/cert-manager.crds.yaml
 
