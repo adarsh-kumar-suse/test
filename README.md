@@ -1,4 +1,8 @@
 
+helm repo add suse-observability https://charts.rancher.com/server-charts/prime/suse-observability
+helm repo update
+
+
 export VALUES_DIR=.
 helm template \
   --set license='your key' \
